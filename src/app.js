@@ -6,6 +6,9 @@ const PORT = 3000;
 const API_URL_COUNTRIES = "https://restcountries.com/v3.1/all";
 const TOKEN = process.env.TOKEN;
 
+// Servir les fichiers statiques à partir du répertoire 'public'
+app.use(express.static('public'));
+
 app.get("/countries/:countryCode", async (req, res) => {
     try {
         const countryCode = req.params.countryCode;
@@ -22,12 +25,19 @@ app.get("/", async (req, res) => {
     try {
         const response = await fetch(API_URL_COUNTRIES);
         const data = await response.json();
-        const countries = data.sort((a,b) => a.translations.fra.common.localeCompare(b.translations.fra.common))
+        const countries = data.sort((a, b) => a.translations.fra.common.localeCompare(b.translations.fra.common));
 
         let html = `
             <html>
             <head>
                 <title>Résultats IUCN par pays</title>
+                
+                <style>
+                    #countrySelect {
+                        max-height: 300px;
+                        overflow-y: auto;
+                    }
+                </style>
                 <script>
                     async function handleClick(countryCode) {
                         try {
@@ -35,32 +45,25 @@ app.get("/", async (req, res) => {
                             const species = await response.json();
                             console.log("Species for country code", countryCode, ":", species);
                         } catch (error) {
-                            console.error("Erreur lors de la récupération des espèces:", error);
+                            console.error("Erreur:", error);
                         }
                     }
                 </script>
             </head>
             <body>
-                <h1>Résultats IUCN par pays</h1>
-                <ul>
-        `;
-        countries.forEach(country => {
-            html += `<li onClick="handleClick('${country.cca2}')">${country.translations.fra.common} : ${country.cca2}</li>`;
-        });
-        html += `
-                </ul>
+                <select id="countrySelect" onchange="handleClick(this.value)">
+                    ${countries.map(country => `<option value="${country.cca2}">${country.translations.fra.common}</option>`).join('')}
+                </select>
             </body>
             </html>
         `;
-
         res.send(html);
     } catch (error) {
         console.error("Erreur:", error);
-        res.status(500).send("Erreur lors de la récupération des données.");
+        res.status(500).send("Erreur lors de la récupération des pays.");
     }
 });
 
-// Lancer le serveur
 app.listen(PORT, () => {
-    console.log(`Serveur démarré sur http://localhost:${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
