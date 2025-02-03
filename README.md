@@ -49,5 +49,17 @@ L'application repose sur deux APIs pour récupérer les données nécessaires.
 *(À compléter ultérieurement)*
 
 ## Documentation
-*(À compléter ultérieurement)*
 
+### Description
+Ce composant permet de sélectionner un pays via un menu déroulant. Lorsqu'un pays est sélectionné, une liste d'espèces menacées spécifiques à ce pays s'affiche. Chaque espèce est accompagnée de son nom et de son niveau de menace.
+
+### Fonctionnalités
+- Affichage d'une liste de pays sous forme de menu déroulant.
+- Sélection dynamique : Lorsqu'un pays est sélectionné, les espèces menacées correspondantes s'affichent.
+- Informations fournies pour chaque espèce :
+    - Nom de l'espèce
+    - Niveau de menace (ex. Vulnérable, En danger, En danger critique, etc.)
+### Utilisation
+- Sélectionner un pays dans le menu déroulant.
+- Les espèces menacées du pays choisi s'affichent dynamiquement.
+- L'utilisateur peut consulter les informations sur chaque espèce et son niveau de menace.

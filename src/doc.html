@@ -1,34 +1,43 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="stylesheet" href="../styles/doc.css">
+    <link rel="stylesheet" href="../public/doc.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documentation : Menu déroulant des pays et affichage des espèces menacées</title>
 </head>
 <body>
-    <h1>Documentation : Menu déroulant des pays et affichage des espèces menacées</h1>
     
-    <h2>Description</h2>
-    <p>Ce composant permet de sélectionner un pays via un <strong>menu déroulant</strong>. Lorsqu'un pays est sélectionné, une liste d'<strong>espèces menacées</strong> spécifiques à ce pays s'affiche. Chaque espèce est accompagnée de son <strong>nom</strong> et de son <strong>niveau de menace</strong>.</p>
-    
-    <h2>Fonctionnalités</h2>
-    <ul>
-        <li>Affichage d'une <strong>liste de pays</strong> sous forme de menu déroulant.</li>
-        <li><strong>Sélection dynamique</strong> : Lorsqu'un pays est sélectionné, les espèces menacées correspondantes s'affichent.</li>
-        <li>Informations fournies pour chaque espèce :
+    <div class="docPage">
+        <div class="docHeader">
+            <h1>Documentation :</h1> 
+            <a class="cross" href="javascript:history.back()" class="close-button">&times;</a>
+        </div>
+        <div class="docContainer">
+            <h2>Description</h2>
+            <p>Ce composant permet de sélectionner un pays via un <strong>menu déroulant</strong>. Lorsqu'un pays est sélectionné, une liste d'<strong>espèces menacées</strong> spécifiques à ce pays s'affiche. Chaque espèce est accompagnée de son <strong>nom</strong> et de son <strong>niveau de menace</strong>.</p>
+        </div>
+        <div class="docContainer">
+            <h2>Fonctionnalités</h2>
             <ul>
-                <li><strong>Nom de l&apos;espèce</strong></li>
-                <li><strong>Niveau de menace</strong> (ex. Vulnérable, En danger, En danger critique, etc.)</li>
+                <li>Affichage d'une <strong>liste de pays</strong> sous forme de menu déroulant.</li>
+                <li><strong>Sélection dynamique</strong> : Lorsqu'un pays est sélectionné, les espèces menacées correspondantes s'affichent.</li>
+                <li>Informations fournies pour chaque espèce :
+                    <ul>
+                        <li><strong>Nom de l&apos;espèce</strong></li>
+                        <li><strong>Niveau de menace</strong> (ex. Vulnérable, En danger, En danger critique, etc.)</li>
+                    </ul>
+                </li>
             </ul>
-        </li>
-    </ul>
-    
-    <h2>Utilisation</h2>
-    <ol>
-        <li><strong>Sélectionner un pays</strong> dans le menu déroulant.</li>
-        <li>Les espèces menacées du pays choisi s'affichent dynamiquement.</li>
-        <li>L'utilisateur peut consulter les informations sur chaque espèce et son niveau de menace.</li>
-    </ol>
+        </div>
+        <div class="docContainer">
+            <h2>Utilisation</h2>
+            <ol>
+                <li><strong>Sélectionner un pays</strong> dans le menu déroulant.</li>
+                <li>Les espèces menacées du pays choisi s'affichent dynamiquement.</li>
+                <li>L'utilisateur peut consulter les informations sur chaque espèce et son niveau de menace.</li>
+            </ol>
+        </div>
+    </div>
 </body>
 </html>
