@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/MathisDacacio/App-especes/issues"
   },
-  "homepage": "https://github.com/MathisDacacio/App-especes#readme"
+  "homepage": "https://github.com/MathisDacacio/App-especes#readme",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
 }
