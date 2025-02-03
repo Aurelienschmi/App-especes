@@ -1,5 +1,7 @@
 require("dotenv").config();
 const express = require("express");
+const getAssessments = require("./get-assessments");
+const getSpeciesInformations = require("./get-species-informations");
 
 const app = express();
 const PORT = 3000;
@@ -9,18 +11,33 @@ const TOKEN = process.env.TOKEN;
 // Servir les fichiers statiques à partir du répertoire 'public'
 app.use(express.static('public'));
 
+// Route pour récupérer les espèces par pays avec détails supplémentaires
 app.get("/countries/:countryCode", async (req, res) => {
     try {
         const countryCode = req.params.countryCode;
-        const species = await getAssessments(countryCode, TOKEN);
-        res.json(species);
+        const assessments = await getAssessments(countryCode, TOKEN);
+
+        // Récupération des détails pour chaque sis_taxon_id
+        const enrichedAssessments = await Promise.all(
+            assessments.assessments.map(async (assessment) => {
+                if (assessment.sis_taxon_id) {
+                    const speciesDetails = await getSpeciesInformations(assessment.sis_taxon_id, TOKEN);
+                    const speciesName = speciesDetails.taxon.common_names.filter(name => name.language === "fre")[0];
+                    return speciesName ? speciesName.name : speciesDetails.taxon.scientific_name ;
+                }
+                return assessment;
+            })
+        );
+
+        res.json({ names: enrichedAssessments });
+
     } catch (error) {
         console.error("Erreur:", error);
         res.status(500).send("Erreur lors de la récupération des espèces.");
     }
 });
 
-// Route principale
+// Route principale affichant les pays et permettant de sélectionner un pays
 app.get("/", async (req, res) => {
     try {
         const response = await fetch(API_URL_COUNTRIES);
@@ -30,20 +47,14 @@ app.get("/", async (req, res) => {
         let html = `
             <html>
             <head>
-                <title>Résultats IUCN par pays</title>
-                
-                <style>
-                    #countrySelect {
-                        max-height: 300px;
-                        overflow-y: auto;
-                    }
-                </style>
+                <link href="home.css" rel="stylesheet"/>                
                 <script>
                     async function handleClick(countryCode) {
                         try {
                             const response = await fetch('/countries/' + countryCode);
                             const species = await response.json();
-                            console.log("Species for country code", countryCode, ":", species);
+                            const speciesList = species.names.sort((a, b) => a.localeCompare(b));
+                            document.getElementById('speciesList').innerText = JSON.stringify(speciesList, null, 2);
                         } catch (error) {
                             console.error("Erreur:", error);
                         }
@@ -51,9 +62,14 @@ app.get("/", async (req, res) => {
                 </script>
             </head>
             <body>
+                <h1>Résultats IUCN par pays</h1>
+
                 <select id="countrySelect" onchange="handleClick(this.value)">
                     ${countries.map(country => `<option value="${country.cca2}">${country.translations.fra.common}</option>`).join('')}
                 </select>
+
+                <h2>Liste des espèces en danger</h2>
+                <pre id="speciesList"></pre>
             </body>
             </html>
         `;
