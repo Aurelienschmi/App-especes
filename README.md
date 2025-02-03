@@ -19,7 +19,7 @@ App Especes est une application Node.js qui permet d'afficher la liste des pays 
 - Affichage des espèces menacées pour un pays sélectionné.
 - Affichage du niveau de menace de chaque espèce.
 - Affichage du nom scientifique (latin) de chaque espèce.
-- (Bonus) Affichage du nom français des espèces si disponible.
+- Affichage du nom français des espèces si disponible.
 
 ## Prérequis
 - npm >= 5.5.0
@@ -46,7 +46,10 @@ L'application repose sur deux APIs pour récupérer les données nécessaires.
 - Mathis Dacacio (@MathisDacacio)
 
 ## Homepage
-*(À compléter ultérieurement)*
+
+Une fois le serveur allumé, le voir ici:
+
+http://localhost:3000/
 
 ## Documentation
 
