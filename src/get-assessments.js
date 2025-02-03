@@ -1,4 +1,4 @@
-async function getSpecies(countryCode, token) {
+async function getAssessments(countryCode, token) {
     const API_URL_IUCN = `https://api.iucnredlist.org/api/v4/countries/${countryCode}`;
     try {
         const response = await fetch(API_URL_IUCN, {
@@ -12,4 +12,4 @@ async function getSpecies(countryCode, token) {
     }
 };
 
-module.exports = getSpecies;
+module.exports = getAssessments;

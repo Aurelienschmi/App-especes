@@ -1,5 +1,4 @@
 require("dotenv").config();
-const getSpecies = require("./get-species.js");
 const express = require("express");
 
 const app = express();
@@ -7,10 +6,10 @@ const PORT = 3000;
 const API_URL_COUNTRIES = "https://restcountries.com/v3.1/all";
 const TOKEN = process.env.TOKEN;
 
-app.get("/species/:countryCode", async (req, res) => {
+app.get("/countries/:countryCode", async (req, res) => {
     try {
         const countryCode = req.params.countryCode;
-        const species = await getSpecies(countryCode, TOKEN);
+        const species = await getAssessments(countryCode, TOKEN);
         res.json(species);
     } catch (error) {
         console.error("Erreur:", error);
@@ -32,7 +31,7 @@ app.get("/", async (req, res) => {
                 <script>
                     async function handleClick(countryCode) {
                         try {
-                            const response = await fetch('/species/' + countryCode);
+                            const response = await fetch('/countries/' + countryCode);
                             const species = await response.json();
                             console.log("Species for country code", countryCode, ":", species);
                         } catch (error) {
