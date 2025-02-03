@@ -27,7 +27,6 @@ app.get("/", async (req, res) => {
         html += "</ul>";
 
         const species = await getSpecies("FR",TOKEN);
-        console.log(species)
 
         res.send(html);
     } catch (error) {
