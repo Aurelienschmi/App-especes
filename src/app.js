@@ -6,7 +6,7 @@ const getAssessments = require("./get-assessments");
 const getSpeciesInformations = require("./get-species-informations");
 
 const app = express();
-const PORT = process.env.PORT || 3001; // Changez le port ici
+const PORT = process.env.PORT || 3001;
 const API_URL_COUNTRIES = "https://restcountries.com/v3.1/all";
 const TOKEN = process.env.TOKEN;
 const cache = new NodeCache({ stdTTL: 86400 }); // Cache for 1 day (86400 seconds)
@@ -18,13 +18,12 @@ app.get("/countries/:countryCode", async (req, res) => {
     try {
         const countryCode = req.params.countryCode;
         const assessments = await getAssessments(countryCode, TOKEN);
-        // Récupération des détails pour chaque sis_taxon_id
         const enrichedAssessments = await Promise.all(
-            assessments.assessments.map(async (assessment) => {
+            assessments.assessments.slice(0, 10).map(async (assessment) => {
                 if (assessment.sis_taxon_id) {
                     const speciesDetails = await getSpeciesInformations(assessment.sis_taxon_id, TOKEN);
                     const speciesName = speciesDetails.taxon.common_names.filter(name => name.language === "fre")[0];
-                    return speciesName ? speciesName.name : speciesDetails.taxon.scientific_name ;
+                    return speciesName ? speciesName.name : speciesDetails.taxon.scientific_name;
                 }
                 return assessment;
             })
@@ -39,37 +38,26 @@ app.get("/countries/:countryCode", async (req, res) => {
 // Route principale
 app.get("/", async (req, res) => {
     try {
-        let countries = cache.get("countries");
-        if (!countries) {
-            console.log("Fetching countries from API...");
-            const response = await axios.get(API_URL_COUNTRIES)
-            .then(response => response.data)
-            .catch(error => console.error("Erreur:", error));
-            countries = response.sort((a, b) => a.translations.fra.common.localeCompare(b.translations.fra.common));
-            cache.set("countries", countries);
-            console.log("Countries fetched and cached.");
-        } else {
-            console.log("Countries fetched from cache.");
-        }
+        const response = await axios.get(API_URL_COUNTRIES);
+        const data = response.data;
+        const countries = data.sort((a, b) => a.translations.fra.common.localeCompare(b.translations.fra.common));
 
         let html = `
             <html>
             <head>
                 <title>Résultats IUCN par pays</title>
-                <link href="home.css" rel="stylesheet"/>
-                <style>
-                    #countrySelect {
-                        max-height: 300px;
-                        overflow-y: auto;
-                    }
-                </style>
+                <link rel="stylesheet" type="text/css" href="/home.css">
                 <script>
                     async function handleClick(countryCode) {
                         try {
                             const response = await fetch('/countries/' + countryCode);
                             const species = await response.json();
-                            const speciesList = species.names.sort((a, b) => a.localeCompare(b));
-                            document.getElementById('speciesList').innerText = JSON.stringify(speciesList, null, 2);
+                            const speciesList = document.getElementById('speciesList');
+                            speciesList.innerHTML = species.names.map(name => \`
+                                <div class="docContainer">
+                                    <p>\${name}</p>
+                                </div>
+                            \`).join('');
                         } catch (error) {
                             console.error("Erreur:", error);
                         }
@@ -77,13 +65,20 @@ app.get("/", async (req, res) => {
                 </script>
             </head>
             <body>
-                <h1 class='title'>Résultats IUCN par pays</h1>
-                <select id="countrySelect" onchange="handleClick(this.value)">
-                    <option value="">-- Choisissez un pays --</option>
-                    ${countries.map(country => `<option value="${country.cca2}">${country.translations.fra.common}</option>`).join('')}
-                </select>
-                <h2>Liste des espèces en danger</h2>
-                <pre id="speciesList"></pre>
+                <div class="navbar">
+                    <div class="title">Résultats IUCN par pays</div>
+                    <div class="buttons">
+                        <a href="/" class="home-button">Home</a>
+                        <a href="./doc.html" class="doc-button">Doc</a>
+                    </div>
+                </div>
+                <div class="content">
+                    <h1 class="sel">Sélectionnez un pays</h1>
+                    <select id="countrySelect" onchange="handleClick(this.value)">
+                        ${countries.map(country => `<option value="${country.cca2}">${country.translations.fra.common}</option>`).join('')}
+                    </select>
+                    <div id="speciesList"></div>
+                </div>
             </body>
             </html>
         `;
