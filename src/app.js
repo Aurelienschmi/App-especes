@@ -79,6 +79,7 @@ app.get("/", async (req, res) => {
             <body>
                 <h1 class='title'>Résultats IUCN par pays</h1>
                 <select id="countrySelect" onchange="handleClick(this.value)">
+                    <option value="">-- Choisissez un pays --</option>
                     ${countries.map(country => `<option value="${country.cca2}">${country.translations.fra.common}</option>`).join('')}
                 </select>
                 <h2>Liste des espèces en danger</h2>
