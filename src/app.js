@@ -120,7 +120,7 @@ app.get("/", async (req, res) => {
                             speciesListElement.innerHTML = species.names.length 
                                 ? species.names
                                     .sort((a, b) => a.name.localeCompare(b.name))
-                                    .map(s => \`<li><strong>\${s.name}</strong> (Année: \${s.year}), Presence dans la nature: \${s.extinctInTheWild}, Presence :\${s.extinct}</li>\`)
+                                    .map(s => \`<div class="docContainer"><strong>\${s.name}</strong> (Année: \${s.year}), Presence dans la nature: \${s.extinctInTheWild}, Presence :\${s.extinct}</div>\`)
                                     .join('')
                                 : "<p>Aucune donnée disponible.</p>";
                         } catch (error) {
@@ -144,16 +144,26 @@ app.get("/", async (req, res) => {
                     <div class="title">Résultats IUCN par pays</div>
                     <div class="buttons">
                         <a href="/" class="home-button">Home</a>
-                        <a href="./doc.html" class="doc-button">Doc</a>
+                        <a href="/doc.html" class="doc-button">Doc</a>
                         <p>Langue: <span id="language"></span></p>
                     </div>
                 </div>
                 <div class="content">
-                    <h1 class="sel">Sélectionnez un pays</h1>
-                    <select id="countrySelect" onchange="handleClick(this.value)">
-                        ${countries.map(country => `<option value="${country.cca2}">${country.translations.fra.common}</option>`).join('')}
-                    </select>
-                    <div id="speciesList"></div>
+
+                    <div class="container">
+
+                        <h1 class="sel">Sélectionnez un pays</h1>
+                        <select id="countrySelect" onchange="handleClick(this.value)">
+                            ${countries.map(country => `<option class="select" value="${country.cca2}">${country.translations.fra.common}</option>`).join('')}
+                        </select>
+
+                    </div>
+                    
+                    <div class="containerList">
+                        <p>Resultat :</p>
+                        <div id="speciesList"></div>
+                    </div>
+
                 </div>
             </body>
             </html>

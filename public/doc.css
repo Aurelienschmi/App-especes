@@ -1,30 +1,77 @@
+@font-face {
+    font-family: 'FontRegular';
+    src: url('./fonts/GlacialIndifference-Regular.otf') format('opentype');
+  }
 
 body{
-    font-family: 'DM', sans-serif;
+    font-family: 'FontRegular', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f0f0f0;
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #1c8635;
+    color: white;
+    padding: 1rem;
+}
+
+.title {
+    padding-left: 2rem;
+    text-align: center;
+    font-size: 2rem;
+    color: white;
+    border-bottom: 3px solid #1c8635;
+}
+
+.buttons{
+    margin-right:3rem ;
+}
+
+.home-button{
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.2rem;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.home-button:hover{
+    text-decoration: underline;
+}
+
+.doc-button{
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.2rem;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.doc-button:hover{
+    text-decoration: underline;
 }
 
 .docHeader{
     display: flex;
     justify-content: space-between;
 
-}
-
-.cross{
-    position: relative;
-    top: 20px;
-    left: 500px;
-    color: #1c8635;
-    text-decoration: none;
-    font-size: 30px;
-    cursor: pointer;
-    border: 2px solid #1c8635;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    text-align: center;
 }
 
 .docPage{
