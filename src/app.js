@@ -97,7 +97,7 @@ app.get("/", async (req, res) => {
             <html>
             <head>
                 <title>Résultats IUCN par pays</title>
-                <link rel="stylesheet" type="text/css" href="/home.css">
+                <link rel="stylesheet" type="text/css" href="/styles.css">
                 <script>
                     async function getIp() {
                         const response = await fetch('/get-ip/');
