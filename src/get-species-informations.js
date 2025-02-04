@@ -1,15 +1,15 @@
+const axios = require('axios');
+
 async function getSpeciesInformations(speciesCode, token) {
     const API_URL_IUCN = `https://api.iucnredlist.org/api/v4/taxa/sis/${speciesCode}`;
-    try {
-        const response = await fetch(API_URL_IUCN, {
+    const response = await axios.get(API_URL_IUCN, {
             headers: { 'Authorization': ` ${token}` }
+        })
+        .then(response => response.data)
+        .catch (error => {
+            console.log(error)
         });
-        const data = await response.json();
-        return data;
-    } catch(error){
-        console.error("Erreur:", error);
-        return "Erreur lors de la récupération des données.";
-    }
+    return response;
 };
 
 module.exports = getSpeciesInformations;

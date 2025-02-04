@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const axios = require("axios");
 const NodeCache = require("node-cache");
 const getAssessments = require("./get-assessments");
 const getSpeciesInformations = require("./get-species-informations");
@@ -16,8 +17,6 @@ app.use(express.static('public'));
 app.get("/countries/:countryCode", async (req, res) => {
     try {
         const countryCode = req.params.countryCode;
-        const species = await getAssessments(countryCode, TOKEN);
-        res.json(species);
         const assessments = await getAssessments(countryCode, TOKEN);
         // Récupération des détails pour chaque sis_taxon_id
         const enrichedAssessments = await Promise.all(
@@ -43,9 +42,10 @@ app.get("/", async (req, res) => {
         let countries = cache.get("countries");
         if (!countries) {
             console.log("Fetching countries from API...");
-            const response = await fetch(API_URL_COUNTRIES);
-            const data = await response.json();
-            countries = data.sort((a, b) => a.translations.fra.common.localeCompare(b.translations.fra.common));
+            const response = await axios.get(API_URL_COUNTRIES)
+            .then(response => response.data)
+            .catch(error => console.error("Erreur:", error));
+            countries = response.sort((a, b) => a.translations.fra.common.localeCompare(b.translations.fra.common));
             cache.set("countries", countries);
             console.log("Countries fetched and cached.");
         } else {
