@@ -20,10 +20,10 @@ app.set('views', path.join(__dirname, 'views'));
 // Servir les fichiers statiques à partir du répertoire 'public'
 app.use(express.static('public'));
 
-async function getLanguage(ip) {
+/*async function getLanguage(ip) {
     const location = geoip.lookup(ip);
     return location ? location.languages[0] : 'en';
-}
+}*/
 
 app.get('/get-ip/', async (req, res) => {
     if (!cache.get('language')) {
