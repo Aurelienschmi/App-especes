@@ -7,7 +7,7 @@ const getAssessments = require("./get-assessments");
 const getSpeciesInformations = require("./get-species-informations");
 
 const app = express();
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3001;
 const API_URL_COUNTRIES = "https://restcountries.com/v3.1/all";
 const TOKEN = process.env.TOKEN;
 const cache = new NodeCache({ stdTTL: 86400 }); // Cache for 1 day (86400 seconds)
