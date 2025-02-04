@@ -7,10 +7,15 @@ const getAssessments = require("./get-assessments");
 const getSpeciesInformations = require("./get-species-informations");
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 const API_URL_COUNTRIES = "https://restcountries.com/v3.1/all";
 const TOKEN = process.env.TOKEN;
 const cache = new NodeCache({ stdTTL: 86400 }); // Cache for 1 day (86400 seconds)
+
+const path = require('path');
+app.set("view engine", "ejs");
+app.set('views', path.join(__dirname, 'views'));
+
 
 // Servir les fichiers statiques à partir du répertoire 'public'
 app.use(express.static('public'));
@@ -93,87 +98,97 @@ app.get("/", async (req, res) => {
         const data = response.data;
         const countries = data.sort((a, b) => a.translations.fra.common.localeCompare(b.translations.fra.common));
 
-        let html = `
-            <html>
-            <head>
-                <title>Résultats IUCN par pays</title>
-                <link rel="stylesheet" type="text/css" href="/styles.css">
-                <script>
-                    async function getIp() {
-                        const response = await fetch('/get-ip/');
-                        const data = await response.json();
-                        return data.ip || '';
-                    }
-
-                    async function getLanguage(ip) {
-                        const response = await fetch('/get-language/' + ip.ip);
-                        const data = await response.json();
-                        return data.language;
-                    }
-                    async function handleClick(countryCode) {
-                        if (!countryCode) return;
-                        try {
-                            const response = await fetch('/countries/' + countryCode);
-                            const species = await response.json();
-
-                            const speciesListElement = document.getElementById('speciesList');
-                            speciesListElement.innerHTML = species.names.length 
-                                ? species.names
-                                    .sort((a, b) => a.name.localeCompare(b.name))
-                                    .map(s => \`<div class="docContainer"><strong>\${s.name}</strong> (Année: \${s.year}), Presence dans la nature: \${s.extinctInTheWild}, Presence :\${s.extinct}</div>\`)
-                                    .join('')
-                                : "<p>Aucune donnée disponible.</p>";
-                        } catch (error) {
-                            console.error("Erreur:", error);
-                        }
-                    }
-
-                    async function init() {
-                        const ip = await getIp();
-                        const language = await getLanguage(ip);
-                        console.log(language)
-                        document.getElementById('language').innerText = language;
-                        // You can use the countryCode here if needed
-                    }
-
-                    window.onload = init;
-                </script>
-            </head>
-            <body>
-                <div class="navbar">
-                    <div class="title">Résultats IUCN par pays</div>
-                    <div class="buttons">
-                        <a href="/" class="home-button">Home</a>
-                        <a href="/doc.html" class="doc-button">Doc</a>
-                        <p>Langue: <span id="language"></span></p>
-                    </div>
-                </div>
-                <div class="content">
-
-                    <div class="container">
-
-                        <h1 class="sel">Sélectionnez un pays</h1>
-                        <select id="countrySelect" onchange="handleClick(this.value)">
-                            ${countries.map(country => `<option class="select" value="${country.cca2}">${country.translations.fra.common}</option>`).join('')}
-                        </select>
-
-                    </div>
-                    
-                    <div class="containerList">
-                        <p>Resultat :</p>
-                        <div id="speciesList"></div>
-                    </div>
-
-                </div>
-            </body>
-            </html>
-        `;
-        res.send(html);
+        res.render('index', { countries : countries });
     } catch (error) {
         console.error("Erreur:", error);
         res.status(500).send("Erreur lors de la récupération des pays.");
     }
 });
+        
+
+        
+
+                                                                                // let html = `
+                                                                                //     <html>
+                                                                                //     <head>
+                                                                                //         <title>Résultats IUCN par pays</title>
+                                                                                //         <link rel="stylesheet" type="text/css" href="/styles.css">
+                                                                                //         <script>
+                                                                                //             async function getIp() {
+                                                                                //                 const response = await fetch('/get-ip/');
+                                                                                //                 const data = await response.json();
+                                                                                //                 return data.ip || '';
+                                                                                //             }
+
+                                                                                //             async function getLanguage(ip) {
+                                                                                //                 const response = await fetch('/get-language/' + ip.ip);
+                                                                                //                 const data = await response.json();
+                                                                                //                 return data.language;
+                                                                                //             }
+                                                                                //             async function handleClick(countryCode) {
+                                                                                //                 if (!countryCode) return;
+                                                                                //                 try {
+                                                                                //                     const response = await fetch('/countries/' + countryCode);
+                                                                                //                     const species = await response.json();
+
+                                                                                //                     const speciesListElement = document.getElementById('speciesList');
+                                                                                //                     speciesListElement.innerHTML = species.names.length 
+                                                                                //                         ? species.names
+                                                                                //                             .sort((a, b) => a.name.localeCompare(b.name))
+                                                                                //                             .map(s => \`<div class="docContainer"><strong>\${s.name}</strong> (Année: \${s.year}), Presence dans la nature: \${s.extinctInTheWild}, Presence :\${s.extinct}</div>\`)
+                                                                                //                             .join('')
+                                                                                //                         : "<p>Aucune donnée disponible.</p>";
+                                                                                //                 } catch (error) {
+                                                                                //                     console.error("Erreur:", error);
+                                                                                //                 }
+                                                                                //             }
+
+                                                                                //             async function init() {
+                                                                                //                 const ip = await getIp();
+                                                                                //                 const language = await getLanguage(ip);
+                                                                                //                 console.log(language)
+                                                                                //                 document.getElementById('language').innerText = language;
+                                                                                //                 // You can use the countryCode here if needed
+                                                                                //             }
+
+                                                                                //             window.onload = init;
+                                                                                //         </script>
+                                                                                //     </head>
+                                                                                //     <body>
+                                                                                //         <div class="navbar">
+                                                                                //             <div class="title">Résultats IUCN par pays</div>
+                                                                                //             <div class="buttons">
+                                                                                //                 <a href="/" class="home-button">Home</a>
+                                                                                //                 <a href="/doc.html" class="doc-button">Doc</a>
+                                                                                //                 <p>Langue: <span id="language"></span></p>
+                                                                                //             </div>
+                                                                                //         </div>
+                                                                                //         <div class="content">
+
+                                                                                //             <div class="container">
+
+                                                                                //                 <h1 class="sel">Sélectionnez un pays</h1>
+                                                                                //                 <select id="countrySelect" onchange="handleClick(this.value)">
+                                                                                //                     ${countries.map(country => `<option class="select" value="${country.cca2}">${country.translations.fra.common}</option>`).join('')}
+                                                                                //                 </select>
+
+                                                                                //             </div>
+                                                                                            
+                                                                                //             <div class="containerList">
+                                                                                //                 <p>Resultat :</p>
+                                                                                //                 <div id="speciesList"></div>
+                                                                                //             </div>
+
+                                                                                //         </div>
+                                                                                //     </body>
+                                                                                //     </html>
+                                                                                // `;
+        //res.send(html);
+//     } catch (error) {
+//         console.error("Erreur:", error);
+//         res.status(500).send("Erreur lors de la récupération des pays.");
+//     }
+// });
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

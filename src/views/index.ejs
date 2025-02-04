@@ -1,8 +1,13 @@
 
 <html>
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Résultats IUCN par pays</title>
-        <link rel="stylesheet" type="text/css" href="/home.css">
+        <link rel="stylesheet" href="/styles.css">
+
+    </head>
+
         <script>
             async function getIp() {
                 const response = await fetch('/get-ip/');
@@ -15,6 +20,7 @@
                 const data = await response.json();
                 return data.language;
             }
+
             async function handleClick(countryCode) {
                 if (!countryCode) return;
                 try {
@@ -25,7 +31,7 @@
                     speciesListElement.innerHTML = species.names.length 
                         ? species.names
                             .sort((a, b) => a.name.localeCompare(b.name))
-                            .map(s => `<div class="docContainer"><strong>\${s.name}</strong> (Année: \${s.year}), Presence dans la nature: \${s.extinctInTheWild}, Presence :\${s.extinct}</div>\``)
+                            .map(s => `<div class="docContainer"><strong>${s.name}</strong> (Année: ${s.year}), Présence dans la nature: ${s.extinctInTheWild}, Présence: ${s.extinct}</div>`)
                             .join('')
                         : "<p>Aucune donnée disponible.</p>";
                 } catch (error) {
@@ -45,7 +51,7 @@
         </script>
 
 
-    </head>
+    
     <body>
         <div class="navbar">
             <div class="title">Résultats IUCN par pays</div>
@@ -56,21 +62,20 @@
             </div>
         </div>
         <div class="content">
-
             <div class="container">
-
                 <h1 class="sel">Sélectionnez un pays</h1>
                 <select id="countrySelect" onchange="handleClick(this.value)">
-                    ${countries.map(country => `<option class="select" value="${country.cca2}">${country.translations.fra.common}</option>`).join('')}
+                    <% countries.forEach(country => { %>
+                        <% if (country.translations && country.translations.fra) { %>
+                            <option class="select" value="<%= country.cca2 %>"><%= country.translations.fra.common %></option>
+                        <% } %>
+                    <% }) %>
                 </select>
-
             </div>
-            
             <div class="containerList">
                 <p>Resultat :</p>
                 <div id="speciesList"></div>
             </div>
-
         </div>
     </body>
     </html>
