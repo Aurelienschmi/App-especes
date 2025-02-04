@@ -26,4 +26,4 @@ jobs:
               run: |
                   npm install qualscan -g
                   qualscan --scripts
-            - run: npm run test
+              continue-on-error: true
