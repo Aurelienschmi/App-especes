@@ -21,6 +21,7 @@
     "axios": "^1.7.9",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "geoip-country": "^5.0.202501312341",
     "node-cache": "^5.1.2",
     "node-fetch": "^3.3.2"
   },
