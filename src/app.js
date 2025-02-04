@@ -15,10 +15,10 @@ const cache = new NodeCache({ stdTTL: 86400 }); // Cache for 1 day (86400 second
 // Servir les fichiers statiques à partir du répertoire 'public'
 app.use(express.static('public'));
 
-async function getLanguage(ip) {
+/*async function getLanguage(ip) {
     const location = geoip.lookup(ip);
     return location ? location.languages[0] : 'en';
-}
+}*/
 
 app.get('/get-ip/', async (req, res) => {
     if (!cache.get('language')) {
