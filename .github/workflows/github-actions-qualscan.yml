@@ -10,12 +10,21 @@ on:
             - main
             - master
 jobs:
-    Explore-GitHub-Actions:
+    build:
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [18.x]
         steps:
-            - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-            - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-            - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-            - run: npm i
-            - run: npm install -g qualscan
-            - run: qualscan
+            - uses: actions/checkout@v3
+            - name: Set up Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: npm ci
+            - run: npm run linter
+            - name: Install and run qualscan
+              run: |
+                  npm install qualscan -g
+                  qualscan --scripts
+            - run: npm run test
