@@ -71,6 +71,6 @@ Ce composant permet de sélectionner un pays via un menu déroulant. Lorsqu'un p
 ### Modifications
 
 Nous avons modifié l'arborescence du projet pour qu'il soit plus lisible.
-Nous avons terminé l'issue 8
-Nous avons aujouté des actions de test Github
-Nous avons supprimé les fichiers inutiles
+Nous avons terminé l'issue 8.
+Nous avons aujouté des actions de test Github.
+Nous avons supprimé les fichiers inutiles.
