@@ -1,0 +1,111 @@
+/* 🌿 Styles généraux */
+body {
+    font-family: "Georgia", serif;
+    background-color: #FAF3E0; /* Blanc cassé */
+    margin: 0;
+    padding: 20px;
+    color: #2C3E50; /* Bleu-gris élégant */
+}
+
+/* 📌 Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #1C5635; /* Vert sapin plus profond */
+    color: white;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre douce */
+}
+
+.title {
+    text-align: center;
+    font-size: 2rem;
+    color: white;
+    font-style: italic;
+    border-bottom: 3px solid #1C5635;
+}
+
+/* 🎯 Boutons */
+.buttons {
+    display: flex;
+    align-items: center;
+    margin-right: 3rem;
+}
+
+.home-button, .doc-button {
+    color: white;
+    border: 2px solid white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.home-button:hover, .doc-button:hover {
+    background-color: white;
+    color: #1C5635;
+}
+
+/* 📌 Sélecteurs (<select>) */
+select {
+    font-family: "Georgia", serif;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 10px;
+    padding: 8px;
+    border: 2px solid #1C5635;
+    background-color: white;
+    transition: 0.3s;
+}
+
+select:hover, select:focus {
+    background-color: #E8E0D5; /* Légère variation blanc cassé */
+    border-color: #166a2b;
+    outline: none;
+}
+
+/* 📌 Conteneur principal */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    width: 40%;
+}
+
+/* 📌 Liste des espèces */
+.containerList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 4rem;
+}
+
+#speciesList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 70%;
+}
+
+/* 📌 Boîte d'information */
+.docContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 70%;
+    height: 40px;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

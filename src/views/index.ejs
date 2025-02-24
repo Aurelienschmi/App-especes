@@ -1,0 +1,92 @@
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Résultats IUCN par pays</title>
+        <link rel="stylesheet" href="/styles.css" />
+    </head>
+
+    <script>
+        async function getIp() {
+            const response = await fetch("/get-ip/");
+            const data = await response.json();
+            return data.ip || "";
+        }
+
+        async function getLanguage(ip) {
+            const response = await fetch("/get-language/" + ip.ip);
+            const data = await response.json();
+            return data.language;
+        }
+
+        async function handleClick(countryCode) {
+            if (!countryCode) return;
+            try {
+                const response = await fetch("/countries/" + countryCode);
+                const species = await response.json();
+
+                const speciesListElement =
+                    document.getElementById("speciesList");
+                speciesListElement.innerHTML = species.names.length
+                    ? species.names
+                          .sort((a, b) => a.name.localeCompare(b.name))
+                          .map(
+                              (s) =>
+                                  `<div class="docContainer"><strong>${
+                                      s.name
+                                  }</strong> (Année: ${
+                                      s.year
+                                  }), Présence dans la nature: ${
+                                      s.extinctInTheWild
+                                          ? "Non éteint"
+                                          : "Éteint"
+                                  }, Présence: ${
+                                      s.extinct ? "Non éteint" : "Éteint"
+                                  }</div>`
+                          )
+                          .join("")
+                    : "<p>Aucune donnée disponible.</p>";
+            } catch (error) {
+                console.error("Erreur:", error);
+            }
+        }
+
+        async function init() {
+            const ip = await getIp();
+            const language = await getLanguage(ip);
+            console.log(language);
+            document.getElementById("language").innerText = language;
+            // You can use the countryCode here if needed
+        }
+
+        window.onload = init;
+    </script>
+
+    <body>
+        <div class="navbar">
+            <div class="title">Résultats IUCN par pays</div>
+            <div class="buttons">
+                <a href="/" class="home-button">Home</a>
+                <a href="/doc.html" class="doc-button">Doc</a>
+                <p>Langue: <span id="language"></span></p>
+            </div>
+        </div>
+        <div class="content">
+            <div class="container">
+                <h1 class="sel">Sélectionnez un pays</h1>
+                <select id="countrySelect" onchange="handleClick(this.value)">
+                    <% countries.forEach(country => { %> <% if
+                    (country.translations && country.translations.fra) { %>
+                    <option class="select" value="<%= country.cca2 %>">
+                        <%= country.translations.fra.common %>
+                    </option>
+                    <% } %> <% }) %>
+                </select>
+            </div>
+            <div class="containerList">
+                <p>Resultat :</p>
+                <div id="speciesList"></div>
+            </div>
+        </div>
+    </body>
+</html>

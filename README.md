@@ -66,3 +66,11 @@ Ce composant permet de sélectionner un pays via un menu déroulant. Lorsqu'un p
 - Sélectionner un pays dans le menu déroulant.
 - Les espèces menacées du pays choisi s'affichent dynamiquement.
 - L'utilisateur peut consulter les informations sur chaque espèce et son niveau de menace.
+
+
+### Modifications
+
+Nous avons modifié l'arborescence du projet pour qu'il soit plus lisible.
+Nous avons terminé l'issue 8.
+Nous avons aujouté des actions de test Github.
+Nous avons supprimé les fichiers inutiles.
