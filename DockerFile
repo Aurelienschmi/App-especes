@@ -10,9 +10,10 @@ COPY src ./src
 COPY public ./public
 COPY tests .
 
-RUN npm run test -- --run
+RUN npm run test
 
 ENV PORT=3000
 
+EXPOSE 3000
 ENTRYPOINT [ "npm" ]
 CMD ["run", "build"]

@@ -7,7 +7,7 @@
         "dev": "nodemon src/app.js",
         "build": "node src/app.js",
         "linter": "eslint src/**/*.js",
-        "test": "vitest"
+        "test": "vitest --run"
     },
     "repository": {
         "type": "git",
