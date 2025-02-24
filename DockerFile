@@ -9,7 +9,7 @@ RUN npm install
 COPY src .
 COPY tests .
 
-RUN npm run test
+RUN npm run test -- --run
 
 ENTRYPOINT [ "npm" ]
-CMD ["run", "dev"]
+CMD ["run", "build"]
