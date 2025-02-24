@@ -1,37 +1,37 @@
 {
-  "name": "app-especes",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "dev": "nodemon src/app.js",
-    "linter": "eslint src/**/*.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/MathisDacacio/App-especes.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/MathisDacacio/App-especes/issues"
-  },
-  "homepage": "https://github.com/MathisDacacio/App-especes#readme",
-  "dependencies": {
-    "axios": "^1.7.9",
-    "dotenv": "^16.4.7",
-    "ejs": "^3.1.10",
-    "eslint": "^9.19.0",
-    "express": "^4.21.2",
-    "geoip-country": "^5.0.202501312341",
-    "node-cache": "^5.1.2",
-    "node-fetch": "^3.3.2",
-    "qualscan": "^3.1.9",
-    "vitest": "^3.0.6"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.9",
-    "qualscan": "^3.1.9"
-  }
+    "name": "app-especes",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "dev": "node src/app.js",
+        "linter": "eslint src/**/*.js",
+        "test": "vitest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/MathisDacacio/App-especes.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/MathisDacacio/App-especes/issues"
+    },
+    "homepage": "https://github.com/MathisDacacio/App-especes#readme",
+    "dependencies": {
+        "axios": "^1.7.9",
+        "dotenv": "^16.4.7",
+        "ejs": "^3.1.10",
+        "eslint": "^9.19.0",
+        "express": "^4.21.2",
+        "geoip-country": "^5.0.202501312341",
+        "node-cache": "^5.1.2",
+        "node-fetch": "^3.3.2",
+        "qualscan": "^3.1.9",
+        "vitest": "^3.0.6"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.9",
+        "qualscan": "^3.1.9"
+    }
 }
