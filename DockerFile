@@ -1,1 +1,9 @@
-FROM node:latest-slim
+FROM node:23-alpine
+
+WORKDIR /usr/app
+
+COPY package.json .
+COPY src .
+COPY tests .
+
+RUN npm install
