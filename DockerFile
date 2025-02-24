@@ -12,5 +12,7 @@ COPY tests .
 
 RUN npm run test -- --run
 
+ENV PORT=3000
+
 ENTRYPOINT [ "npm" ]
 CMD ["run", "build"]
