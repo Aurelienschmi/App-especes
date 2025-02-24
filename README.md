@@ -42,10 +42,10 @@ npm install --save-dev nodemon
 npm run dev
 ```
 
-Avec docker
+With docker
 
 ```sh
- docker build -t liste-iucn:latest .
+docker build -t liste-iucn:latest .
 ```
 
 ```sh
