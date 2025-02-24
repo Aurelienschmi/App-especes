@@ -10,13 +10,12 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const API_URL_COUNTRIES = "https://restcountries.com/v3.1/all";
 const TOKEN = process.env.TOKEN;
-const cache = new NodeCache({ stdTTL: 86400 }); // Cache for 1 day (86400 seconds)
+const cache = new NodeCache({ stdTTL: 86400 });
 
 const path = require("path");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// Servir les fichiers statiques à partir du répertoire 'public'
 app.use(express.static("public"));
 
 async function getLanguage(ip) {
@@ -124,4 +123,5 @@ app.get("/", async (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+    console.log("App is running");
 });
