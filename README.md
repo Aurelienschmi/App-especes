@@ -49,7 +49,7 @@ docker build -t liste-iucn:latest .
 ```
 
 ```sh
-docker run -d -e TOKEN=TOKEN liste-iucn
+docker run -d -e TOKEN=$TOKEN liste-iucn
 ```
 
 ## APIs utilisées
