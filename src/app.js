@@ -7,10 +7,24 @@ const getAssessments = require("./get-assessments");
 const getSpeciesInformations = require("./get-species-informations");
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 80;
 const API_URL_COUNTRIES = "https://restcountries.com/v3.1/all";
 const TOKEN = process.env.TOKEN;
 const cache = new NodeCache({ stdTTL: 86400 });
+const simpleGit = require('simple-git');
+const git = simpleGit();
+
+
+app.get("/version", async (req, res) => {
+    try {
+        const log = await git.log();
+        const latestCommit = log.latest;
+        res.json({ commit: latestCommit.hash });
+    } catch (error) {
+        console.error("Erreur:", error);
+        res.status(500).send("Erreur lors de la récupération du commit.");
+    }
+});
 
 const path = require("path");
 app.set("view engine", "ejs");
